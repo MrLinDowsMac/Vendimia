@@ -42,5 +42,11 @@ namespace Vendimia.App
         {
             tsFecha.Text = $"Fecha: {DateTime.Now.Date: dd/MM/yyyy}";
         }
+
+        private void clientesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            openChildForm(new ClientesForm());
+        }
+
     }
 }

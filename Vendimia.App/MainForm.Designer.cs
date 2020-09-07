@@ -35,8 +35,8 @@
             this.clientesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.artículosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.configuraciónToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.panelChildForm = new System.Windows.Forms.Panel();
             this.tsFecha = new System.Windows.Forms.ToolStripTextBox();
+            this.panelChildForm = new System.Windows.Forms.Panel();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -84,6 +84,7 @@
             this.clientesToolStripMenuItem.Name = "clientesToolStripMenuItem";
             this.clientesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.clientesToolStripMenuItem.Text = "Clientes";
+            this.clientesToolStripMenuItem.Click += new System.EventHandler(this.clientesToolStripMenuItem_Click);
             // 
             // artículosToolStripMenuItem
             // 
@@ -97,15 +98,6 @@
             this.configuraciónToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.configuraciónToolStripMenuItem.Text = "Configuración";
             // 
-            // panelChildForm
-            // 
-            this.panelChildForm.BackColor = System.Drawing.SystemColors.Desktop;
-            this.panelChildForm.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelChildForm.Location = new System.Drawing.Point(0, 27);
-            this.panelChildForm.Name = "panelChildForm";
-            this.panelChildForm.Size = new System.Drawing.Size(800, 423);
-            this.panelChildForm.TabIndex = 1;
-            // 
             // tsFecha
             // 
             this.tsFecha.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
@@ -115,6 +107,15 @@
             this.tsFecha.Name = "tsFecha";
             this.tsFecha.Size = new System.Drawing.Size(125, 23);
             this.tsFecha.Text = "Fecha: 01/01/2000";
+            // 
+            // panelChildForm
+            // 
+            this.panelChildForm.BackColor = System.Drawing.SystemColors.Desktop;
+            this.panelChildForm.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelChildForm.Location = new System.Drawing.Point(0, 27);
+            this.panelChildForm.Name = "panelChildForm";
+            this.panelChildForm.Size = new System.Drawing.Size(800, 423);
+            this.panelChildForm.TabIndex = 1;
             // 
             // MainForm
             // 

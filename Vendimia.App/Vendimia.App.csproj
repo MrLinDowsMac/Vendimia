@@ -199,12 +199,22 @@
     <Compile Include="Migrations\20200906032348_MigracionInicial.designer.cs">
       <DependentUpon>20200906032348_MigracionInicial.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\20200907065442_AgregadoCampoTotal.cs" />
+    <Compile Include="Migrations\20200907065442_AgregadoCampoTotal.designer.cs">
+      <DependentUpon>20200907065442_AgregadoCampoTotal.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\ApplicationDbContextModelSnapshot.cs" />
     <Compile Include="Models\ApplicationDbContext.cs" />
     <Compile Include="Models\Articulo.cs" />
     <Compile Include="Models\Cliente.cs" />
     <Compile Include="Models\Venta.cs" />
     <Compile Include="Models\VentaDetalle.cs" />
+    <Compile Include="NuevaVentaForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="NuevaVentaForm.Designer.cs">
+      <DependentUpon>NuevaVentaForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ArticulosForm.cs">
@@ -213,6 +223,7 @@
     <Compile Include="ArticulosForm.Designer.cs">
       <DependentUpon>ArticulosForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="VentaItem.cs" />
     <Compile Include="VentasForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -230,6 +241,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NuevaVentaForm.resx">
+      <DependentUpon>NuevaVentaForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

@@ -30,12 +30,6 @@
         {
             this.btnNuevaVenta = new System.Windows.Forms.Button();
             this.gridVentas = new System.Windows.Forms.DataGridView();
-            this.FolioVta = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ClaveCte = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Nombre = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Total = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.FechaVta = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Estatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.lblVentasActivas = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.gridVentas)).BeginInit();
             this.SuspendLayout();
@@ -49,6 +43,7 @@
             this.btnNuevaVenta.TabIndex = 0;
             this.btnNuevaVenta.Text = "Nueva Venta";
             this.btnNuevaVenta.UseVisualStyleBackColor = true;
+            this.btnNuevaVenta.Click += new System.EventHandler(this.btnNuevaVenta_Click);
             // 
             // gridVentas
             // 
@@ -57,53 +52,10 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.gridVentas.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.gridVentas.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.FolioVta,
-            this.ClaveCte,
-            this.Nombre,
-            this.Total,
-            this.FechaVta,
-            this.Estatus});
             this.gridVentas.Location = new System.Drawing.Point(27, 124);
             this.gridVentas.Name = "gridVentas";
             this.gridVentas.Size = new System.Drawing.Size(744, 289);
             this.gridVentas.TabIndex = 1;
-            // 
-            // FolioVta
-            // 
-            this.FolioVta.FillWeight = 72.75321F;
-            this.FolioVta.HeaderText = "Folio Venta";
-            this.FolioVta.Name = "FolioVta";
-            // 
-            // ClaveCte
-            // 
-            this.ClaveCte.FillWeight = 104.562F;
-            this.ClaveCte.HeaderText = "Clave Cliente";
-            this.ClaveCte.Name = "ClaveCte";
-            // 
-            // Nombre
-            // 
-            this.Nombre.FillWeight = 91.31642F;
-            this.Nombre.HeaderText = "Nombre";
-            this.Nombre.Name = "Nombre";
-            // 
-            // Total
-            // 
-            this.Total.FillWeight = 86.98965F;
-            this.Total.HeaderText = "Total";
-            this.Total.Name = "Total";
-            // 
-            // FechaVta
-            // 
-            this.FechaVta.FillWeight = 110.9502F;
-            this.FechaVta.HeaderText = "Fecha";
-            this.FechaVta.Name = "FechaVta";
-            // 
-            // Estatus
-            // 
-            this.Estatus.FillWeight = 133.4286F;
-            this.Estatus.HeaderText = "Estatus";
-            this.Estatus.Name = "Estatus";
             // 
             // lblVentasActivas
             // 
@@ -123,7 +75,8 @@
             this.Controls.Add(this.gridVentas);
             this.Controls.Add(this.btnNuevaVenta);
             this.Name = "VentasForm";
-            this.Text = "VentasForm";
+            this.Text = "Registro de Ventas";
+            this.Load += new System.EventHandler(this.VentasForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.gridVentas)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -134,12 +87,6 @@
 
         private System.Windows.Forms.Button btnNuevaVenta;
         private System.Windows.Forms.DataGridView gridVentas;
-        private System.Windows.Forms.DataGridViewTextBoxColumn FolioVta;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ClaveCte;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Nombre;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Total;
-        private System.Windows.Forms.DataGridViewTextBoxColumn FechaVta;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Estatus;
         private System.Windows.Forms.Label lblVentasActivas;
     }
 }

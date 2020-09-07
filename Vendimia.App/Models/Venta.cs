@@ -18,6 +18,7 @@ namespace Vendimia.App.Models
         //public string NombreCte { get; set; }
         public DateTime Fecha { get; set; }
         public string Estatus { get; set; }
+        public double Total { get; set; }
         
     }
 }

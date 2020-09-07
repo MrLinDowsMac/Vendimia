@@ -48,5 +48,9 @@ namespace Vendimia.App
             openChildForm(new ClientesForm());
         }
 
+        private void artículosToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            openChildForm(new ArticulosForm());
+        }
     }
 }

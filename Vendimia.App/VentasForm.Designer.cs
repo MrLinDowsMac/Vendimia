@@ -56,6 +56,7 @@
             this.gridVentas.Name = "gridVentas";
             this.gridVentas.Size = new System.Drawing.Size(744, 289);
             this.gridVentas.TabIndex = 1;
+            this.gridVentas.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridVentas_CellClick);
             // 
             // lblVentasActivas
             // 

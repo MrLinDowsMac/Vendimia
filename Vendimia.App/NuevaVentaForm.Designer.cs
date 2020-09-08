@@ -39,13 +39,19 @@
             this.gridArticulosVtas = new System.Windows.Forms.DataGridView();
             this.lblRFC = new System.Windows.Forms.Label();
             this.lblClaveCliente = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.lblEnganche = new System.Windows.Forms.Label();
+            this.lblBonificacion = new System.Windows.Forms.Label();
+            this.lblTotal = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.gridArticulosVtas)).BeginInit();
             this.SuspendLayout();
             // 
             // btnGuardar
             // 
             this.btnGuardar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnGuardar.Location = new System.Drawing.Point(607, 405);
+            this.btnGuardar.Location = new System.Drawing.Point(607, 457);
             this.btnGuardar.Name = "btnGuardar";
             this.btnGuardar.Size = new System.Drawing.Size(75, 33);
             this.btnGuardar.TabIndex = 11;
@@ -56,7 +62,7 @@
             // 
             this.btnCancelar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCancelar.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancelar.Location = new System.Drawing.Point(526, 405);
+            this.btnCancelar.Location = new System.Drawing.Point(526, 457);
             this.btnCancelar.Name = "btnCancelar";
             this.btnCancelar.Size = new System.Drawing.Size(75, 33);
             this.btnCancelar.TabIndex = 10;
@@ -119,7 +125,6 @@
             this.cmbArticulo.TabIndex = 15;
             this.cmbArticulo.Text = "Buscar Artículo...";
             this.cmbArticulo.TextUpdate += new System.EventHandler(this.cmbArticulo_TextUpdate);
-            this.cmbArticulo.SelectedValueChanged += new System.EventHandler(this.cmbArticulo_SelectedValueChanged);
             this.cmbArticulo.Enter += new System.EventHandler(this.cmbArticulo_Enter);
             this.cmbArticulo.Leave += new System.EventHandler(this.cmbArticulo_Leave);
             // 
@@ -142,7 +147,7 @@
             this.gridArticulosVtas.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.gridArticulosVtas.Location = new System.Drawing.Point(12, 127);
             this.gridArticulosVtas.Name = "gridArticulosVtas";
-            this.gridArticulosVtas.Size = new System.Drawing.Size(670, 262);
+            this.gridArticulosVtas.Size = new System.Drawing.Size(670, 223);
             this.gridArticulosVtas.TabIndex = 18;
             this.gridArticulosVtas.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridArticulosVtas_CellValueChanged);
             // 
@@ -165,12 +170,75 @@
             this.lblClaveCliente.Text = ".";
             this.lblClaveCliente.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(475, 369);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(59, 13);
+            this.label3.TabIndex = 21;
+            this.label3.Text = "Enganche:";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(414, 393);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(120, 13);
+            this.label4.TabIndex = 22;
+            this.label4.Text = "Bonificación Enganche:";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(500, 415);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(34, 13);
+            this.label5.TabIndex = 23;
+            this.label5.Text = "Total:";
+            // 
+            // lblEnganche
+            // 
+            this.lblEnganche.AutoSize = true;
+            this.lblEnganche.Location = new System.Drawing.Point(603, 369);
+            this.lblEnganche.Name = "lblEnganche";
+            this.lblEnganche.Size = new System.Drawing.Size(10, 13);
+            this.lblEnganche.TabIndex = 24;
+            this.lblEnganche.Text = ".";
+            this.lblEnganche.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
+            // lblBonificacion
+            // 
+            this.lblBonificacion.AutoSize = true;
+            this.lblBonificacion.Location = new System.Drawing.Point(604, 393);
+            this.lblBonificacion.Name = "lblBonificacion";
+            this.lblBonificacion.Size = new System.Drawing.Size(10, 13);
+            this.lblBonificacion.TabIndex = 25;
+            this.lblBonificacion.Text = ".";
+            this.lblBonificacion.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
+            // lblTotal
+            // 
+            this.lblTotal.AutoSize = true;
+            this.lblTotal.Location = new System.Drawing.Point(604, 415);
+            this.lblTotal.Name = "lblTotal";
+            this.lblTotal.Size = new System.Drawing.Size(10, 13);
+            this.lblTotal.TabIndex = 26;
+            this.lblTotal.Text = ".";
+            this.lblTotal.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
             // NuevaVentaForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancelar;
-            this.ClientSize = new System.Drawing.Size(697, 450);
+            this.ClientSize = new System.Drawing.Size(697, 502);
+            this.Controls.Add(this.lblTotal);
+            this.Controls.Add(this.lblBonificacion);
+            this.Controls.Add(this.lblEnganche);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.label3);
             this.Controls.Add(this.lblClaveCliente);
             this.Controls.Add(this.lblRFC);
             this.Controls.Add(this.gridArticulosVtas);
@@ -204,5 +272,11 @@
         private System.Windows.Forms.DataGridView gridArticulosVtas;
         private System.Windows.Forms.Label lblRFC;
         private System.Windows.Forms.Label lblClaveCliente;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label lblEnganche;
+        private System.Windows.Forms.Label lblBonificacion;
+        private System.Windows.Forms.Label lblTotal;
     }
 }

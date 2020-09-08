@@ -13,8 +13,9 @@ namespace Vendimia.App
 {
     public partial class NuevaVentaForm : Form
     {
-        //private List<Cliente> _clientes;
-        //private List<>
+        
+        private BindingList<VentaItem> listaVentaDetalle = new BindingList<VentaItem>();
+        //private ListBinder<VentaDetalle> listaVentaDetalle = new ListBinder<VentaDetalle>();
 
         public NuevaVentaForm()
         {
@@ -34,30 +35,78 @@ namespace Vendimia.App
 
         private void InicializarGrid()
         {
+            
+            //gridArticulosVtas.DataSource = ventaDetalle;
+            BindingSource bs = new BindingSource();
+            bs.DataSource = listaVentaDetalle;
+            gridArticulosVtas.AutoGenerateColumns = false;
+            gridArticulosVtas.DataSource = bs;
+
+            DataGridViewColumn col0 = new DataGridViewTextBoxColumn();
+            col0.DataPropertyName = "IdArticulo";
+            col0.HeaderText = "IdArticulo";
+            col0.Visible = false;
+            gridArticulosVtas.Columns.Add(col0);
+
+            DataGridViewColumn col1 = new DataGridViewTextBoxColumn();
+            col1.DataPropertyName = "Descripcion";
+            col1.HeaderText = "Descripcion";
+            col1.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            gridArticulosVtas.Columns.Add(col1);
+
+            DataGridViewColumn col2 = new DataGridViewTextBoxColumn();
+            col2.DataPropertyName = "Modelo";
+            col2.HeaderText = "Modelo";
+            gridArticulosVtas.Columns.Add(col2);
+
+            DataGridViewColumn col3 = new DataGridViewTextBoxColumn();
+            col3.DataPropertyName = "Cantidad";
+            col3.HeaderText = "Cantidad";
+            gridArticulosVtas.Columns.Add(col3);
+
+            DataGridViewColumn col4 = new DataGridViewTextBoxColumn();
+            col4.DataPropertyName = "Precio";
+            col4.HeaderText = "Precio";
+            gridArticulosVtas.Columns.Add(col4);
+
+            DataGridViewColumn col5 = new DataGridViewTextBoxColumn();
+            col5.DataPropertyName = "Importe";
+            col5.HeaderText = "Importe";
+            gridArticulosVtas.Columns.Add(col5);
+
             DataGridViewLinkColumn linkLabel = new DataGridViewLinkColumn();
-            //linkLabel.Text = "❌";
+            linkLabel.Text = "❌";
             linkLabel.HeaderText = "";
             linkLabel.LinkBehavior = LinkBehavior.NeverUnderline;
-
-            gridArticulosVtas.Columns.Add("Descripcion", "Descripcion Artículo");
-            gridArticulosVtas.Columns.Add("Modelo", "Modelo");
-            gridArticulosVtas.Columns.Add("Cantidad", "Cantidad");
-            gridArticulosVtas.Columns.Add("Precio", "Precio");
-            gridArticulosVtas.Columns.Add("Importe", "Importe");
-            gridArticulosVtas.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            linkLabel.DataPropertyName = "IdArticulo";
+            linkLabel.UseColumnTextForLinkValue = true;
             gridArticulosVtas.Columns.Add(linkLabel);
 
             this.gridArticulosVtas.CellContentClick += new DataGridViewCellEventHandler(this.gridArticulosVtas_CellContentClick);
+
+            //gridArticulosVtas.Columns.Add("Descripcion", "Descripcion Artículo");
+            //gridArticulosVtas.Columns.Add("Modelo", "Modelo");
+            //gridArticulosVtas.Columns.Add("Cantidad", "Cantidad");
+            //gridArticulosVtas.Columns.Add("Precio", "Precio");
+            //gridArticulosVtas.Columns.Add("Importe", "Importe");
+            //gridArticulosVtas.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            //gridArticulosVtas.Columns.Add(linkLabel);
+
+            //this.gridArticulosVtas.CellContentClick += new DataGridViewCellEventHandler(this.gridArticulosVtas_CellContentClick);
+
         }
 
         private void gridArticulosVtas_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.ColumnIndex == 5) //Si presiona eliminar
+
+            if (e.RowIndex == -1)
+            {
+                return;
+            }
+
+            if (e.ColumnIndex == 6) //Si presiona eliminar
             {
                 gridArticulosVtas.Rows.RemoveAt(e.RowIndex);
-                //gridArticulosVtas.Rows[e.RowIndex].Cells.Remove(e);
-                //e.RowIndex
-                
             }
         }
 
@@ -163,20 +212,6 @@ namespace Vendimia.App
             }
         }
 
-        private void cmbArticulo_SelectedValueChanged(object sender, EventArgs e)
-        {
-            //if (cmbArticulo.SelectedItem != null)
-            //{
-            //    Articulo selectedArticulo = cmbArticulo.SelectedItem as Articulo;
-            //    //lblRFC.Text = $"RFC: {selectedArticulo.RFC}";
-            //    //lblClaveCliente.Text = $"{String.Format("{0:0000}", selectedArticulo.IdCliente)}";
-            //}
-            //else
-            //{
-            //    lblRFC.Text = "";
-            //}
-        }
-
         private void cmbArticulo_TextUpdate(object sender, EventArgs e)
         {
             if (cmbArticulo.Text.Length == 3)
@@ -207,35 +242,98 @@ namespace Vendimia.App
 
         private void btnAgregarArticulo_Click(object sender, EventArgs e)
         {
-            if (ValidarExistencia()) {
-                Articulo selectedArticulo = cmbArticulo.SelectedItem as Articulo;
-                gridArticulosVtas.Rows.Add(selectedArticulo.Descripcion,
-                    selectedArticulo.Modelo,
-                    1, 
-                    selectedArticulo.Precio,
-                    selectedArticulo.Precio,
-                   "❌");
+            Articulo selectedArticulo = cmbArticulo.SelectedItem as Articulo;
+            if (selectedArticulo.Existencia > 1)
+            {
+
+                VentaItem seleccionado = listaVentaDetalle.FirstOrDefault(x => x.IdArticulo == selectedArticulo.IdArticulo);
+                if (seleccionado == null)
+                {
+                    VentaItem ventaItem = new VentaItem();
+                    ventaItem.IdArticulo = selectedArticulo.IdArticulo;
+                    ventaItem.Descripcion = selectedArticulo.Descripcion;
+                    ventaItem.Modelo = selectedArticulo.Modelo;
+                    ventaItem.Cantidad = 1;
+                    ventaItem.Precio = selectedArticulo.Precio;
+                    ventaItem.Importe = selectedArticulo.Precio * ventaItem.Cantidad;
+                    listaVentaDetalle.Add(ventaItem);
+
+                }
+                else
+                {
+                    if (selectedArticulo.Existencia - seleccionado.Cantidad > 0)
+                    {
+                        listaVentaDetalle.Remove(seleccionado);
+                        seleccionado.Cantidad += 1;
+                        seleccionado.Importe = seleccionado.Cantidad * selectedArticulo.Precio;
+                        listaVentaDetalle.Add(seleccionado);
+                    }
+                    else
+                    {
+                        MessageBox.Show("El artículo seleccionado no puede agregar más debido a la existencia, favor de verificar");
+                    }
+                }
             }
             else
             {
                 MessageBox.Show("El artículo seleccionado no cuenta con existencia, favor de verificar");
             }
+            //gridArticulosVtas.Rows.Add(selectedArticulo.Descripcion,
+            //        selectedArticulo.Modelo,
+            //        1, 
+            //        selectedArticulo.Precio,
+            //        selectedArticulo.Precio,
+            //       "❌");
+
+
+            //if (ValidarExistencia()) {
+            //    Articulo selectedArticulo = cmbArticulo.SelectedItem as Articulo;
+            //    gridArticulosVtas.Rows.Add(selectedArticulo.Descripcion,
+            //        selectedArticulo.Modelo,
+            //        1, 
+            //        selectedArticulo.Precio,
+            //        selectedArticulo.Precio,
+            //       "❌");
+            //}
+            //else
+            //{
+            //    MessageBox.Show("El artículo seleccionado no cuenta con existencia, favor de verificar");
+            //}
         }
 
         private bool ValidarExistencia()
         {
+            //TODO: Validar Existencia.
+            //articulo.Existencia
             return true;
         }
 
         private void gridArticulosVtas_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
-            //TODO: Validar que solo se pueda editar en una celda
-           //Multiplica Cantidad * Precio
-            int fila = gridArticulosVtas.CurrentRow.Index;
-            int cantidad = Convert.ToInt32( gridArticulosVtas.CurrentCell.Value);
-            //Point current = gridArticulosVtas.CurrentCellAddress;
-            gridArticulosVtas.Rows[fila].Cells[4].Value = cantidad * (double)gridArticulosVtas.Rows[fila].Cells[3].Value;
-            //gridArticulosVtas.Rows[current.X].SetValues()
+            //TODO: Validar existencia al cambiar manualmente la cantidad
+            
+                //Multiplica Cantidad * Precio
+                int fila = gridArticulosVtas.CurrentRow.Index;
+                int cantidad =(int)(gridArticulosVtas.CurrentCell.Value);
+                int IdArticulo = (int)gridArticulosVtas.Rows[fila].Cells[0].Value;
+
+                Articulo articulo;
+                using (var context = new ApplicationDbContext())
+                {
+                    articulo = context.Articulos
+                    .First(x => x.IdArticulo == IdArticulo);
+                }
+                if (cantidad <= articulo.Existencia)
+                {
+                    gridArticulosVtas.Rows[fila].Cells[5].Value = cantidad * (double)gridArticulosVtas.Rows[fila].Cells[4].Value;
+                }
+                else
+                { 
+                    MessageBox.Show("La cantidad indicada supera la de existencia, favor de verificar");
+                    gridArticulosVtas.Rows[fila].Cells[3].Value = 1;
+                }
+
         }
+
     }
 }

@@ -36,9 +36,10 @@ namespace Vendimia.App
 
         private void btnNuevaVenta_Click(object sender, EventArgs e)
         {
-            NuevaVentaForm nuevaVentaForm = new NuevaVentaForm();
-            nuevaVentaForm.FormClosed += VentaNuevaForm_FormClosed;
-            nuevaVentaForm.ShowDialog();
+
+                NuevaVentaForm nuevaVentaForm = new NuevaVentaForm();
+                nuevaVentaForm.FormClosed += VentaNuevaForm_FormClosed;
+                nuevaVentaForm.ShowDialog();
         }
 
         private void VentasForm_Load(object sender, EventArgs e)

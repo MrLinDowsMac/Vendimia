@@ -16,7 +16,7 @@ namespace Vendimia.App.Models
         //public int FolioVta {get;set;}
         [ForeignKey("FolioVta")]
         public Venta Venta { get; set; }
-        
+        public int IdArticulo { get; set; }
         [ForeignKey("IdArticulo")]
         public Articulo Articulo { get; set; }
         [Required]

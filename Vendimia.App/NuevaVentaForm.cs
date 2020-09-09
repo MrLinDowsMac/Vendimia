@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -14,12 +15,17 @@ namespace Vendimia.App
     public partial class NuevaVentaForm : Form
     {
         
-        private BindingList<VentaItem> listaVentaDetalle = new BindingList<VentaItem>();
-        //private ListBinder<VentaDetalle> listaVentaDetalle = new ListBinder<VentaDetalle>();
+        private BindingList<VentaItem> listaVentaItem = new BindingList<VentaItem>();
+        private Configuracion config = new Configuracion();
+
+        private double totaladeudo = 0;
+        private Cliente selectedCliente = new Cliente();
+        //private DataGridViewCheckBoxColumn radioColumn = new DataGridViewCheckBoxColumn();
 
         public NuevaVentaForm()
         {
             InitializeComponent();
+            this.Height -= hiddenPanel.Size.Height;
         }
 
         private void NuevaVentaForm_Load(object sender, EventArgs e)
@@ -31,6 +37,17 @@ namespace Vendimia.App
 
             cmbArticulo.DisplayMember = "Descripcion";
             cmbArticulo.ValueMember = "IdArticulo";
+
+            CargarConfigAsync();
+
+        }
+
+        private async void CargarConfigAsync()
+        {
+            using (var context = new ApplicationDbContext())
+            {
+                config = await context.Configuracion.FirstAsync();
+            }
         }
 
         private void InicializarGrid()
@@ -38,7 +55,7 @@ namespace Vendimia.App
             
             //gridArticulosVtas.DataSource = ventaDetalle;
             BindingSource bs = new BindingSource();
-            bs.DataSource = listaVentaDetalle;
+            bs.DataSource = listaVentaItem;
             gridArticulosVtas.AutoGenerateColumns = false;
             gridArticulosVtas.DataSource = bs;
 
@@ -83,16 +100,6 @@ namespace Vendimia.App
             gridArticulosVtas.Columns.Add(linkLabel);
 
             this.gridArticulosVtas.CellContentClick += new DataGridViewCellEventHandler(this.gridArticulosVtas_CellContentClick);
-
-            //gridArticulosVtas.Columns.Add("Descripcion", "Descripcion Artículo");
-            //gridArticulosVtas.Columns.Add("Modelo", "Modelo");
-            //gridArticulosVtas.Columns.Add("Cantidad", "Cantidad");
-            //gridArticulosVtas.Columns.Add("Precio", "Precio");
-            //gridArticulosVtas.Columns.Add("Importe", "Importe");
-            //gridArticulosVtas.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            //gridArticulosVtas.Columns.Add(linkLabel);
-
-            //this.gridArticulosVtas.CellContentClick += new DataGridViewCellEventHandler(this.gridArticulosVtas_CellContentClick);
 
         }
 
@@ -167,6 +174,8 @@ namespace Vendimia.App
             {
                 MessageBox.Show("Hubo un problema al intentar realizar busqueda");
             }
+
+            
         }
 
         private void cmbCliente_KeyUp(object sender, KeyEventArgs e)
@@ -179,7 +188,7 @@ namespace Vendimia.App
         {
             if (cmbCliente.SelectedItem != null)
             {
-                Cliente selectedCliente = cmbCliente.SelectedItem as Cliente;
+                selectedCliente = cmbCliente.SelectedItem as Cliente;
                 lblRFC.Text = $"RFC: {selectedCliente.RFC}";
                 lblClaveCliente.Text = $"{String.Format("{0:0000}", selectedCliente.IdCliente)}";
             }
@@ -246,7 +255,7 @@ namespace Vendimia.App
             if (selectedArticulo.Existencia > 1)
             {
 
-                VentaItem seleccionado = listaVentaDetalle.FirstOrDefault(x => x.IdArticulo == selectedArticulo.IdArticulo);
+                VentaItem seleccionado = listaVentaItem.FirstOrDefault(x => x.IdArticulo == selectedArticulo.IdArticulo);
                 if (seleccionado == null)
                 {
                     VentaItem ventaItem = new VentaItem();
@@ -254,19 +263,23 @@ namespace Vendimia.App
                     ventaItem.Descripcion = selectedArticulo.Descripcion;
                     ventaItem.Modelo = selectedArticulo.Modelo;
                     ventaItem.Cantidad = 1;
-                    ventaItem.Precio = selectedArticulo.Precio;
+                    //Calcular Precio
+                    ventaItem.Precio = selectedArticulo.Precio * (double)(1 + (config.TasaFinanciamiento * config.PlazoMaximo) / 100);
                     ventaItem.Importe = selectedArticulo.Precio * ventaItem.Cantidad;
-                    listaVentaDetalle.Add(ventaItem);
+                    listaVentaItem.Add(ventaItem);
 
+                    ActualizarCalculos();
                 }
                 else
                 {
                     if (selectedArticulo.Existencia - seleccionado.Cantidad > 0)
                     {
-                        listaVentaDetalle.Remove(seleccionado);
+                        listaVentaItem.Remove(seleccionado);
                         seleccionado.Cantidad += 1;
-                        seleccionado.Importe = seleccionado.Cantidad * selectedArticulo.Precio;
-                        listaVentaDetalle.Add(seleccionado);
+                        seleccionado.Importe = seleccionado.Cantidad * (selectedArticulo.Precio * (double)(1 + (config.TasaFinanciamiento * config.PlazoMaximo) / 100));
+                        listaVentaItem.Add(seleccionado);
+
+                        ActualizarCalculos();
                     }
                     else
                     {
@@ -278,34 +291,18 @@ namespace Vendimia.App
             {
                 MessageBox.Show("El artículo seleccionado no cuenta con existencia, favor de verificar");
             }
-            //gridArticulosVtas.Rows.Add(selectedArticulo.Descripcion,
-            //        selectedArticulo.Modelo,
-            //        1, 
-            //        selectedArticulo.Precio,
-            //        selectedArticulo.Precio,
-            //       "❌");
-
-
-            //if (ValidarExistencia()) {
-            //    Articulo selectedArticulo = cmbArticulo.SelectedItem as Articulo;
-            //    gridArticulosVtas.Rows.Add(selectedArticulo.Descripcion,
-            //        selectedArticulo.Modelo,
-            //        1, 
-            //        selectedArticulo.Precio,
-            //        selectedArticulo.Precio,
-            //       "❌");
-            //}
-            //else
-            //{
-            //    MessageBox.Show("El artículo seleccionado no cuenta con existencia, favor de verificar");
-            //}
+            
         }
 
-        private bool ValidarExistencia()
+        private void ActualizarCalculos()
         {
-            //TODO: Validar Existencia.
-            //articulo.Existencia
-            return true;
+            double totalimporte = listaVentaItem.Sum(x => x.Importe);
+            double enganche = (totalimporte * (double)(config.Enganche / 100));
+            double bonificacion = enganche * (((double)config.TasaFinanciamiento * config.PlazoMaximo) / 100);
+            totaladeudo = totalimporte - enganche - bonificacion;
+            lblEnganche.Text = enganche.ToString("c");
+            lblBonificacion.Text = bonificacion.ToString("c");
+            lblTotal.Text = totaladeudo.ToString("c");
         }
 
         private void gridArticulosVtas_CellValueChanged(object sender, DataGridViewCellEventArgs e)
@@ -325,7 +322,10 @@ namespace Vendimia.App
                 }
                 if (cantidad <= articulo.Existencia)
                 {
-                    gridArticulosVtas.Rows[fila].Cells[5].Value = cantidad * (double)gridArticulosVtas.Rows[fila].Cells[4].Value;
+                    //Calcular el importe
+                    gridArticulosVtas.Rows[fila].Cells[5].Value = cantidad * (double)gridArticulosVtas.Rows[fila].Cells[4].Value; //Precio
+
+                    ActualizarCalculos();
                 }
                 else
                 { 
@@ -335,5 +335,153 @@ namespace Vendimia.App
 
         }
 
+        private void btnSiguiente_Click(object sender, EventArgs e)
+        {
+            //TODO: Validar que se haya seleccionado cliente al menos un artículo y cantidad sea mayor a 0.
+            if (selectedCliente != null && totaladeudo > 0)
+            {
+                if (!hiddenPanel.Visible)
+                {
+                    this.Height += hiddenPanel.Height;
+                    hiddenPanel.Visible = true;
+                    InicializarGridAbonos();
+                    CalcularAbonos();
+                }
+            }
+            else
+            {
+                MessageBox.Show("Los datos ingresados no son correctos, favor de verificar", "Verifique datos");
+            }
+        }
+
+        private void InicializarGridAbonos()
+        {
+            
+            DataGridViewColumn col1 = new DataGridViewTextBoxColumn();
+            col1.HeaderText = "Plazo";
+            gridAbonos.Columns.Add(col1);
+
+            DataGridViewColumn col2 = new DataGridViewTextBoxColumn();
+            col2.HeaderText = "Abono";
+            gridAbonos.Columns.Add(col2);
+
+            DataGridViewColumn col3 = new DataGridViewTextBoxColumn();
+            col3.HeaderText = "Total a pagar";
+            col3.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            gridAbonos.Columns.Add(col3);
+
+            DataGridViewColumn col4 = new DataGridViewTextBoxColumn();
+            col4.HeaderText = "Ahorro";
+            col4.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            gridAbonos.Columns.Add(col4);
+
+            DataGridViewColumn col5 = new DataGridViewTextBoxColumn();
+            col5.HeaderText = "";
+            col5.Visible = false;
+            gridAbonos.Columns.Add(col5);
+
+            //radioColumn = new DataGridViewCheckBoxColumn();
+            //radioColumn.HeaderText = "";
+            //gridAbonos.Columns.Add(radioColumn);
+        }
+
+        private void CalcularAbonos()
+        {
+            double preciocontado = totaladeudo / (1 + (((double)config.TasaFinanciamiento * config.PlazoMaximo) / 100));
+            int[] arrayPlazos = { 3, 6, 9, 12 };
+            foreach (var plazo in arrayPlazos)
+            {
+                double totalpagar = preciocontado * (1 + (((double)config.TasaFinanciamiento * plazo ) / 100));
+                double abono = totalpagar / plazo;
+                double ahorro = totaladeudo - totalpagar;
+                gridAbonos.Rows.Add($"{plazo} ABONOS DE ", $"{abono:c}",$"TOTAL A PAGAR: {totalpagar:c}",$"SE AHORRA {ahorro:c}",plazo);
+            }
+
+            //gridAbonos.Rows.Add()
+        }
+
+        private void btnGuardar_Click(object sender, EventArgs e)
+        {
+            //TODO: Validar haya seleccionado Abono;
+            int plazoseleccionado = (int)gridAbonos.SelectedRows[0].Cells[4].Value;
+
+            using (var context = new ApplicationDbContext())
+            {
+                Venta venta = new Venta() { Fecha = DateTime.Now, Plazo = plazoseleccionado, IdCliente = selectedCliente.IdCliente, Estatus = "A" };
+                context.Ventas.Add(venta);
+                context.SaveChanges();
+                //List<VentaDetalle> listaventaDetalle = new List<VentaDetalle>();
+
+                foreach (var item in listaVentaItem)
+                {
+                    var ventaDetalle = new VentaDetalle() { Importe = item.Importe, Cantidad = item.Cantidad, IdArticulo = item.IdArticulo, Venta = venta };
+                    context.VentaDetalle.Add(ventaDetalle);
+                    var articulo = context.Articulos.First(x => x.IdArticulo == item.IdArticulo);
+                    articulo.Existencia = articulo.Existencia - item.Cantidad;
+                    context.Articulos.Update(articulo);
+                }
+
+                context.SaveChanges();
+            }
+
+            MessageBox.Show("Bien Hecho, Tu venta ha sido registrada correctamente", "Venta Registrada");
+            this.Close();
+
+        }
+
+        //private void dataGridView1_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
+        //{
+        //    if (e.ColumnIndex == radioColumn.Index && e.RowIndex >= 0)
+        //    {
+        //        e.PaintBackground(e.ClipBounds, true);
+
+        //        // TODO: The radio button flickers on mouse over.
+        //        // I tried setting DoubleBuffered on the parent panel, but the flickering persists.
+        //        // If someone figures out how to resolve this, please leave a comment.
+
+        //        Rectangle rectRadioButton = new Rectangle();
+        //        // TODO: Would be nice to not use magic numbers here.
+        //        rectRadioButton.Width = 14;
+        //        rectRadioButton.Height = 14;
+        //        rectRadioButton.X = e.CellBounds.X + (e.CellBounds.Width - rectRadioButton.Width) / 2;
+        //        rectRadioButton.Y = e.CellBounds.Y + (e.CellBounds.Height - rectRadioButton.Height) / 2;
+
+        //        ButtonState buttonState;
+        //        if (e.Value == null || e.Value == DBNull.Value || (bool)(e.Value) == false)
+        //        {
+        //            buttonState = ButtonState.Normal;
+        //        }
+        //        else
+        //        {
+        //            buttonState = ButtonState.Checked;
+        //        }
+        //        ControlPaint.DrawRadioButton(e.Graphics, rectRadioButton, buttonState);
+
+        //        e.Paint(e.ClipBounds, DataGridViewPaintParts.Focus);
+
+        //        e.Handled = true;
+        //    }
+        //}
+
+
+        //private void radioButtonChanged()
+        //{
+        //    if (gridAbonos.CurrentCell.ColumnIndex == radioColumn.Index)
+        //    {
+        //        foreach (DataGridViewRow row in gridAbonos.Rows)
+        //        {
+        //            // Make sure not to uncheck the radio button the user just clicked.
+        //            if (row.Index != gridAbonos.CurrentCell.RowIndex)
+        //            {
+        //                row.Cells[radioColumn.Index].Value = false;
+        //            }
+        //        }
+        //    }
+        //}
+
+        //private void gridAbonos_CurrentCellDirtyStateChanged(object sender, EventArgs e)
+        //{
+        //    radioButtonChanged();
+        //}
     }
 }

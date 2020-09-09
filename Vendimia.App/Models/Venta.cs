@@ -19,6 +19,8 @@ namespace Vendimia.App.Models
         public DateTime Fecha { get; set; }
         public string Estatus { get; set; }
         public double Total { get; set; }
+
+        public int Plazo { get; set; }
         
     }
 }

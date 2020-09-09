@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Vendimia.App.Models;
 
 namespace Vendimia.App.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200909020823_AgregarConfiguracion")]
+    partial class AgregarConfiguracion
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -73,11 +75,6 @@ namespace Vendimia.App.Migrations
 
             modelBuilder.Entity("Vendimia.App.Models.Configuracion", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
                     b.Property<decimal>("Enganche")
                         .HasColumnType("decimal(6,4)");
 
@@ -90,19 +87,7 @@ namespace Vendimia.App.Migrations
                     b.Property<decimal>("TasaFinanciamiento")
                         .HasColumnType("decimal(6,4)");
 
-                    b.HasKey("Id");
-
                     b.ToTable("Configuracion");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Enganche = 0.00m,
-                            PlazoMaximo = 0,
-                            PrimerConfiguracion = true,
-                            TasaFinanciamiento = 0.00m
-                        });
                 });
 
             modelBuilder.Entity("Vendimia.App.Models.Venta", b =>

@@ -189,6 +189,12 @@
     <Compile Include="ClientesForm.Designer.cs">
       <DependentUpon>ClientesForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="ConfiguracionGeneralForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ConfiguracionGeneralForm.Designer.cs">
+      <DependentUpon>ConfiguracionGeneralForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -203,10 +209,19 @@
     <Compile Include="Migrations\20200907065442_AgregadoCampoTotal.designer.cs">
       <DependentUpon>20200907065442_AgregadoCampoTotal.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\20200909020823_AgregarConfiguracion.cs" />
+    <Compile Include="Migrations\20200909020823_AgregarConfiguracion.designer.cs">
+      <DependentUpon>20200909020823_AgregarConfiguracion.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\20200909023652_AgregarIdConf.cs" />
+    <Compile Include="Migrations\20200909023652_AgregarIdConf.designer.cs">
+      <DependentUpon>20200909023652_AgregarIdConf.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\ApplicationDbContextModelSnapshot.cs" />
     <Compile Include="Models\ApplicationDbContext.cs" />
     <Compile Include="Models\Articulo.cs" />
     <Compile Include="Models\Cliente.cs" />
+    <Compile Include="Models\Configuracion.cs" />
     <Compile Include="Models\Venta.cs" />
     <Compile Include="Models\VentaDetalle.cs" />
     <Compile Include="NuevaVentaForm.cs">
@@ -238,6 +253,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ClientesForm.resx">
       <DependentUpon>ClientesForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ConfiguracionGeneralForm.resx">
+      <DependentUpon>ConfiguracionGeneralForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>

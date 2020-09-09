@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Vendimia.App.Models;
 
 namespace Vendimia.App
 {
@@ -40,7 +41,31 @@ namespace Vendimia.App
 
         private void MainForm_Load(object sender, EventArgs e)
         {
+            //Cargar Fecha
             tsFecha.Text = $"Fecha: {DateTime.Now.Date: dd/MM/yyyy}";
+
+            Configuracion configuracion;
+            //Cargar Configuración
+            using (var context = new ApplicationDbContext())
+            {
+                //context.Database.EnsureCreated();
+                //if (!context.Configuracion.Any())
+                //{
+                //    configuracion = new Configuracion { PrimerConfiguracion = true, Enganche = 0.00M, PlazoMaximo = 0, TasaFinanciamiento = 0.00M };
+                //    context.Configuracion.Add(configuracion);
+                //    context.SaveChanges();
+                //    openChildForm(new ConfiguracionGeneralForm());
+                //}
+                //else
+                //{
+                    configuracion = context.Configuracion.First();
+                    if (configuracion.PrimerConfiguracion == true)
+                    {
+                        openChildForm(new ConfiguracionGeneralForm());
+                    }
+                //}
+            }
+            
         }
 
         private void clientesToolStripMenuItem_Click(object sender, EventArgs e)
@@ -51,6 +76,11 @@ namespace Vendimia.App
         private void artículosToolStripMenuItem_Click(object sender, EventArgs e)
         {
             openChildForm(new ArticulosForm());
+        }
+
+        private void configuraciónToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            openChildForm(new ConfiguracionGeneralForm());
         }
     }
 }

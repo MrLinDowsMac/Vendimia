@@ -64,12 +64,24 @@ namespace Vendimia.App
                     message = "Hubo un error";
                     MessageBox.Show(message, "Error", MessageBoxButtons.OK);
                 }
-                
+
+            }
+            else
+            {
+                MessageBox.Show("Debe introducir el nombre completo del cliente","Validación");
             }
         }
 
         private bool ValidarCliente()
         {
+            if (String.IsNullOrWhiteSpace(txtNombre.Text) 
+                || String.IsNullOrWhiteSpace(txtApellidoPaterno.Text)
+                || String.IsNullOrWhiteSpace(txtApellidoMaterno.Text))
+            {
+                return false;
+            }
+                //|| String.IsNullOrWhiteSpace(txtRFC.Text)
+
             cliente.NombreCte = txtNombre.Text;
             cliente.ApellidoPaterno = txtApellidoPaterno.Text;
             cliente.ApellidoMaterno = txtApellidoMaterno.Text;

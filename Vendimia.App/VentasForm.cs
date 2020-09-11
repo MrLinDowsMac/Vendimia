@@ -63,7 +63,7 @@ namespace Vendimia.App
                     .Select(a => new {  
                         a.FolioVta,
                         a.IdCliente,
-                        Nombre = a.Cliente.NombreCte,
+                        a.Cliente.NombreCompleto,
                         a.Total,
                         a.Fecha,
                         a.Estatus
@@ -73,7 +73,7 @@ namespace Vendimia.App
                 foreach (var venta in ventas)
                 {
                     gridVentas.Rows.Add(venta.FolioVta, 
-                        venta.IdCliente, venta.Nombre, 
+                        venta.IdCliente, venta.NombreCompleto, 
                         venta.Total, venta.Fecha, venta.Estatus );
                 }
             }

@@ -67,10 +67,19 @@ namespace Vendimia.App
                 }
                 
             }
+            else
+            {
+                MessageBox.Show("Debe llenar todos los campos");
+            }
         }
 
         private bool ValidarArticulo()
         {
+            if (String.IsNullOrWhiteSpace(txtDescripcion.Text)) return false;
+            if (String.IsNullOrWhiteSpace(txtModelo.Text)) return false;
+            if (String.IsNullOrWhiteSpace(txtPrecio.Text)) return false;
+            if (String.IsNullOrWhiteSpace(txtExistencia.Text)) return false;
+
             articulo.Descripcion = txtDescripcion.Text;
             articulo.Modelo = txtModelo.Text;
             articulo.Precio = Convert.ToDouble(txtPrecio.Text);
@@ -99,5 +108,16 @@ namespace Vendimia.App
             this.Close();
         }
 
+        private void txtPrecio_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar) && (e.KeyChar != '.'))
+                e.Handled = true;
+        }
+
+        private void txtExistencia_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar))
+                e.Handled = true;
+        }
     }
 }

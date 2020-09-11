@@ -44,6 +44,7 @@
             // txtNombre
             // 
             this.txtNombre.Location = new System.Drawing.Point(123, 37);
+            this.txtNombre.MaxLength = 255;
             this.txtNombre.Name = "txtNombre";
             this.txtNombre.Size = new System.Drawing.Size(232, 20);
             this.txtNombre.TabIndex = 0;
@@ -51,6 +52,7 @@
             // txtApellidoPaterno
             // 
             this.txtApellidoPaterno.Location = new System.Drawing.Point(123, 63);
+            this.txtApellidoPaterno.MaxLength = 255;
             this.txtApellidoPaterno.Name = "txtApellidoPaterno";
             this.txtApellidoPaterno.Size = new System.Drawing.Size(232, 20);
             this.txtApellidoPaterno.TabIndex = 1;
@@ -58,6 +60,7 @@
             // txtApellidoMaterno
             // 
             this.txtApellidoMaterno.Location = new System.Drawing.Point(123, 89);
+            this.txtApellidoMaterno.MaxLength = 255;
             this.txtApellidoMaterno.Name = "txtApellidoMaterno";
             this.txtApellidoMaterno.Size = new System.Drawing.Size(232, 20);
             this.txtApellidoMaterno.TabIndex = 2;
@@ -65,6 +68,7 @@
             // txtRFC
             // 
             this.txtRFC.Location = new System.Drawing.Point(123, 116);
+            this.txtRFC.MaxLength = 14;
             this.txtRFC.Name = "txtRFC";
             this.txtRFC.Size = new System.Drawing.Size(232, 20);
             this.txtRFC.TabIndex = 3;

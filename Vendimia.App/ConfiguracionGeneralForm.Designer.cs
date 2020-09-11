@@ -46,6 +46,7 @@
             this.txtFinanciamiento.Name = "txtFinanciamiento";
             this.txtFinanciamiento.Size = new System.Drawing.Size(54, 20);
             this.txtFinanciamiento.TabIndex = 0;
+            this.txtFinanciamiento.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtFinanciamiento_KeyPress);
             // 
             // txtPlazoMaximo
             // 
@@ -54,6 +55,7 @@
             this.txtPlazoMaximo.Name = "txtPlazoMaximo";
             this.txtPlazoMaximo.Size = new System.Drawing.Size(44, 20);
             this.txtPlazoMaximo.TabIndex = 2;
+            this.txtPlazoMaximo.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtPlazoMaximo_KeyPress);
             // 
             // txtEnganche
             // 
@@ -62,6 +64,7 @@
             this.txtEnganche.Name = "txtEnganche";
             this.txtEnganche.Size = new System.Drawing.Size(54, 20);
             this.txtEnganche.TabIndex = 1;
+            this.txtEnganche.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtEnganche_KeyPress);
             // 
             // label1
             // 

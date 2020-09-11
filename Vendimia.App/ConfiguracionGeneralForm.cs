@@ -23,7 +23,16 @@ namespace Vendimia.App
 
         public bool ValidarCampos()
         {
-            //TODO: Agregar Validacion
+            if (
+            String.IsNullOrWhiteSpace(txtEnganche.Text) ||
+            String.IsNullOrWhiteSpace(txtFinanciamiento.Text) ||
+            String.IsNullOrWhiteSpace(txtPlazoMaximo.Text))
+            {
+                MessageBox.Show("Debe llenar todos los campos, revise por favor","Validacion");
+                return false;
+            }
+
+
             conf.Enganche = Convert.ToDecimal(txtEnganche.Text);
             conf.TasaFinanciamiento = Convert.ToDecimal(txtFinanciamiento.Text);
             conf.PlazoMaximo = Convert.ToInt32(txtPlazoMaximo.Text);
@@ -68,6 +77,24 @@ namespace Vendimia.App
                 txtFinanciamiento.Text = conf.TasaFinanciamiento.ToString();
                 txtPlazoMaximo.Text = conf.PlazoMaximo.ToString();
             }
+        }
+
+        private void txtFinanciamiento_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar) && (e.KeyChar != '.'))
+                e.Handled = true;
+        }
+
+        private void txtPlazoMaximo_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar))
+                e.Handled = true;
+        }
+
+        private void txtEnganche_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar) && (e.KeyChar != '.'))
+                e.Handled = true;
         }
     }
 }

@@ -38,15 +38,15 @@ namespace Vendimia.App
             cmbArticulo.DisplayMember = "Descripcion";
             cmbArticulo.ValueMember = "IdArticulo";
 
-            CargarConfigAsync();
+            CargarConfig();
 
         }
 
-        private async void CargarConfigAsync()
+        private void CargarConfig()
         {
             using (var context = new ApplicationDbContext())
             {
-                config = await context.Configuracion.FirstAsync();
+                config = context.Configuracion.First();
             }
         }
 
@@ -307,7 +307,6 @@ namespace Vendimia.App
 
         private void gridArticulosVtas_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
-            //TODO: Validar existencia al cambiar manualmente la cantidad
             
                 //Multiplica Cantidad * Precio
                 int fila = gridArticulosVtas.CurrentRow.Index;
@@ -337,7 +336,7 @@ namespace Vendimia.App
 
         private void btnSiguiente_Click(object sender, EventArgs e)
         {
-            //TODO: Validar que se haya seleccionado cliente al menos un artículo y cantidad sea mayor a 0.
+            //Validar que se haya seleccionado cliente al menos un artículo y cantidad sea mayor a 0.
             if (selectedCliente != null && totaladeudo > 0)
             {
                 if (!hiddenPanel.Visible)
@@ -402,7 +401,14 @@ namespace Vendimia.App
 
         private void btnGuardar_Click(object sender, EventArgs e)
         {
-            //TODO: Validar haya seleccionado Abono;
+            
+            if (gridAbonos.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Debe Seleccionar Un Plazo de Abono","Validación");
+                return;
+            }
+                
+
             int plazoseleccionado = (int)gridAbonos.SelectedRows[0].Cells[4].Value;
 
             using (var context = new ApplicationDbContext())
@@ -429,59 +435,5 @@ namespace Vendimia.App
 
         }
 
-        //private void dataGridView1_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
-        //{
-        //    if (e.ColumnIndex == radioColumn.Index && e.RowIndex >= 0)
-        //    {
-        //        e.PaintBackground(e.ClipBounds, true);
-
-        //        // TODO: The radio button flickers on mouse over.
-        //        // I tried setting DoubleBuffered on the parent panel, but the flickering persists.
-        //        // If someone figures out how to resolve this, please leave a comment.
-
-        //        Rectangle rectRadioButton = new Rectangle();
-        //        // TODO: Would be nice to not use magic numbers here.
-        //        rectRadioButton.Width = 14;
-        //        rectRadioButton.Height = 14;
-        //        rectRadioButton.X = e.CellBounds.X + (e.CellBounds.Width - rectRadioButton.Width) / 2;
-        //        rectRadioButton.Y = e.CellBounds.Y + (e.CellBounds.Height - rectRadioButton.Height) / 2;
-
-        //        ButtonState buttonState;
-        //        if (e.Value == null || e.Value == DBNull.Value || (bool)(e.Value) == false)
-        //        {
-        //            buttonState = ButtonState.Normal;
-        //        }
-        //        else
-        //        {
-        //            buttonState = ButtonState.Checked;
-        //        }
-        //        ControlPaint.DrawRadioButton(e.Graphics, rectRadioButton, buttonState);
-
-        //        e.Paint(e.ClipBounds, DataGridViewPaintParts.Focus);
-
-        //        e.Handled = true;
-        //    }
-        //}
-
-
-        //private void radioButtonChanged()
-        //{
-        //    if (gridAbonos.CurrentCell.ColumnIndex == radioColumn.Index)
-        //    {
-        //        foreach (DataGridViewRow row in gridAbonos.Rows)
-        //        {
-        //            // Make sure not to uncheck the radio button the user just clicked.
-        //            if (row.Index != gridAbonos.CurrentCell.RowIndex)
-        //            {
-        //                row.Cells[radioColumn.Index].Value = false;
-        //            }
-        //        }
-        //    }
-        //}
-
-        //private void gridAbonos_CurrentCellDirtyStateChanged(object sender, EventArgs e)
-        //{
-        //    radioButtonChanged();
-        //}
     }
 }

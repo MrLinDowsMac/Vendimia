@@ -59,16 +59,20 @@
             // txtPrecio
             // 
             this.txtPrecio.Location = new System.Drawing.Point(123, 89);
+            this.txtPrecio.MaxLength = 15;
             this.txtPrecio.Name = "txtPrecio";
             this.txtPrecio.Size = new System.Drawing.Size(79, 20);
             this.txtPrecio.TabIndex = 2;
+            this.txtPrecio.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtPrecio_KeyPress);
             // 
             // txtExistencia
             // 
             this.txtExistencia.Location = new System.Drawing.Point(123, 116);
+            this.txtExistencia.MaxLength = 15;
             this.txtExistencia.Name = "txtExistencia";
             this.txtExistencia.Size = new System.Drawing.Size(44, 20);
             this.txtExistencia.TabIndex = 3;
+            this.txtExistencia.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtExistencia_KeyPress);
             // 
             // lblDescripcion
             // 

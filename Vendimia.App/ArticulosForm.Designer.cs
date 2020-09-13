@@ -37,12 +37,14 @@
             // btnNuevoArticulo
             // 
             this.btnNuevoArticulo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnNuevoArticulo.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(173)))), ((int)(((byte)(181)))));
+            this.btnNuevoArticulo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnNuevoArticulo.Location = new System.Drawing.Point(649, 12);
             this.btnNuevoArticulo.Name = "btnNuevoArticulo";
             this.btnNuevoArticulo.Size = new System.Drawing.Size(139, 41);
             this.btnNuevoArticulo.TabIndex = 0;
             this.btnNuevoArticulo.Text = "Nuevo Artículo";
-            this.btnNuevoArticulo.UseVisualStyleBackColor = true;
+            this.btnNuevoArticulo.UseVisualStyleBackColor = false;
             this.btnNuevoArticulo.Click += new System.EventHandler(this.btnNuevoArticulo_Click);
             // 
             // gridArticulos
@@ -60,6 +62,7 @@
             // lblArticulosRegistrados
             // 
             this.lblArticulosRegistrados.AutoSize = true;
+            this.lblArticulosRegistrados.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(238)))), ((int)(((byte)(238)))));
             this.lblArticulosRegistrados.Location = new System.Drawing.Point(27, 90);
             this.lblArticulosRegistrados.Name = "lblArticulosRegistrados";
             this.lblArticulosRegistrados.Size = new System.Drawing.Size(108, 13);
@@ -70,6 +73,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(44)))), ((int)(((byte)(44)))), ((int)(((byte)(46)))));
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.lblArticulosRegistrados);
             this.Controls.Add(this.gridArticulos);

@@ -66,21 +66,31 @@ namespace Vendimia.App
                 }
 
             }
-            else
-            {
-                MessageBox.Show("Debe introducir el nombre completo del cliente","Validación");
-            }
         }
 
         private bool ValidarCliente()
         {
-            if (String.IsNullOrWhiteSpace(txtNombre.Text) 
-                || String.IsNullOrWhiteSpace(txtApellidoPaterno.Text)
-                || String.IsNullOrWhiteSpace(txtApellidoMaterno.Text))
+            if (String.IsNullOrWhiteSpace(txtNombre.Text))
             {
+                MessageBox.Show("No es posible continuar, debe ingresar el nombre del cliente, es obligatorio", "Validación");
                 return false;
             }
-                //|| String.IsNullOrWhiteSpace(txtRFC.Text)
+
+            if (String.IsNullOrWhiteSpace(txtApellidoPaterno.Text))
+            {
+                MessageBox.Show("No es posible continuar, debe ingresar apellido paterno, es obligatorio", "Validación");
+                return false;
+            }
+            if (String.IsNullOrWhiteSpace(txtApellidoMaterno.Text))
+            {
+                MessageBox.Show("No es posible continuar, debe ingresar apellido materno, es obligatorio", "Validación");
+                return false;
+            }
+            if (String.IsNullOrWhiteSpace(txtRFC.Text))
+            {
+                MessageBox.Show("No es posible continuar, debe ingresar RFC, es obligatorio", "Validación");
+                return false;
+            }
 
             cliente.NombreCte = txtNombre.Text;
             cliente.ApellidoPaterno = txtApellidoPaterno.Text;

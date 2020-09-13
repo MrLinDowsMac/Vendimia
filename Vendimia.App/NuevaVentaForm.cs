@@ -114,6 +114,7 @@ namespace Vendimia.App
             if (e.ColumnIndex == 6) //Si presiona eliminar
             {
                 gridArticulosVtas.Rows.RemoveAt(e.RowIndex);
+                ActualizarCalculos();
             }
         }
 
@@ -251,45 +252,48 @@ namespace Vendimia.App
 
         private void btnAgregarArticulo_Click(object sender, EventArgs e)
         {
-            Articulo selectedArticulo = cmbArticulo.SelectedItem as Articulo;
-            if (selectedArticulo.Existencia > 1)
+            if (cmbArticulo.SelectedItem != null)
             {
-
-                VentaItem seleccionado = listaVentaItem.FirstOrDefault(x => x.IdArticulo == selectedArticulo.IdArticulo);
-                if (seleccionado == null)
+                Articulo selectedArticulo = cmbArticulo.SelectedItem as Articulo;
+                if (selectedArticulo.Existencia > 1)
                 {
-                    VentaItem ventaItem = new VentaItem();
-                    ventaItem.IdArticulo = selectedArticulo.IdArticulo;
-                    ventaItem.Descripcion = selectedArticulo.Descripcion;
-                    ventaItem.Modelo = selectedArticulo.Modelo;
-                    ventaItem.Cantidad = 1;
-                    //Calcular Precio
-                    ventaItem.Precio = selectedArticulo.Precio * (double)(1 + (config.TasaFinanciamiento * config.PlazoMaximo) / 100);
-                    ventaItem.Importe = selectedArticulo.Precio * ventaItem.Cantidad;
-                    listaVentaItem.Add(ventaItem);
 
-                    ActualizarCalculos();
-                }
-                else
-                {
-                    if (selectedArticulo.Existencia - seleccionado.Cantidad > 0)
+                    VentaItem seleccionado = listaVentaItem.FirstOrDefault(x => x.IdArticulo == selectedArticulo.IdArticulo);
+                    if (seleccionado == null)
                     {
-                        listaVentaItem.Remove(seleccionado);
-                        seleccionado.Cantidad += 1;
-                        seleccionado.Importe = seleccionado.Cantidad * (selectedArticulo.Precio * (double)(1 + (config.TasaFinanciamiento * config.PlazoMaximo) / 100));
-                        listaVentaItem.Add(seleccionado);
+                        VentaItem ventaItem = new VentaItem();
+                        ventaItem.IdArticulo = selectedArticulo.IdArticulo;
+                        ventaItem.Descripcion = selectedArticulo.Descripcion;
+                        ventaItem.Modelo = selectedArticulo.Modelo;
+                        ventaItem.Cantidad = 1;
+                        //Calcular Precio
+                        ventaItem.Precio = selectedArticulo.Precio * (double)(1 + (config.TasaFinanciamiento * config.PlazoMaximo) / 100);
+                        ventaItem.Importe = selectedArticulo.Precio * ventaItem.Cantidad;
+                        listaVentaItem.Add(ventaItem);
 
                         ActualizarCalculos();
                     }
                     else
                     {
-                        MessageBox.Show("El artículo seleccionado no puede agregar más debido a la existencia, favor de verificar");
+                        if (selectedArticulo.Existencia - seleccionado.Cantidad > 0)
+                        {
+                            listaVentaItem.Remove(seleccionado);
+                            seleccionado.Cantidad += 1;
+                            seleccionado.Importe = seleccionado.Cantidad * (selectedArticulo.Precio * (double)(1 + (config.TasaFinanciamiento * config.PlazoMaximo) / 100));
+                            listaVentaItem.Add(seleccionado);
+
+                            ActualizarCalculos();
+                        }
+                        else
+                        {
+                            MessageBox.Show("El artículo seleccionado no puede agregar más debido a la existencia, favor de verificar");
+                        }
                     }
                 }
-            }
-            else
-            {
-                MessageBox.Show("El artículo seleccionado no cuenta con existencia, favor de verificar");
+                else
+                {
+                    MessageBox.Show("El artículo seleccionado no cuenta con existencia, favor de verificar");
+                }
             }
             
         }

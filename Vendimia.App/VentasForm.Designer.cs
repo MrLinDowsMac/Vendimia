@@ -37,12 +37,14 @@
             // btnNuevaVenta
             // 
             this.btnNuevaVenta.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnNuevaVenta.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(173)))), ((int)(((byte)(181)))));
+            this.btnNuevaVenta.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnNuevaVenta.Location = new System.Drawing.Point(649, 12);
             this.btnNuevaVenta.Name = "btnNuevaVenta";
             this.btnNuevaVenta.Size = new System.Drawing.Size(139, 41);
             this.btnNuevaVenta.TabIndex = 0;
             this.btnNuevaVenta.Text = "Nueva Venta";
-            this.btnNuevaVenta.UseVisualStyleBackColor = true;
+            this.btnNuevaVenta.UseVisualStyleBackColor = false;
             this.btnNuevaVenta.Click += new System.EventHandler(this.btnNuevaVenta_Click);
             // 
             // gridVentas
@@ -61,6 +63,7 @@
             // lblVentasActivas
             // 
             this.lblVentasActivas.AutoSize = true;
+            this.lblVentasActivas.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.lblVentasActivas.Location = new System.Drawing.Point(27, 90);
             this.lblVentasActivas.Name = "lblVentasActivas";
             this.lblVentasActivas.Size = new System.Drawing.Size(78, 13);
@@ -71,6 +74,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(44)))), ((int)(((byte)(44)))), ((int)(((byte)(46)))));
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.lblVentasActivas);
             this.Controls.Add(this.gridVentas);

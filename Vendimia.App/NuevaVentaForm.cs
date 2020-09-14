@@ -255,7 +255,7 @@ namespace Vendimia.App
             if (cmbArticulo.SelectedItem != null)
             {
                 Articulo selectedArticulo = cmbArticulo.SelectedItem as Articulo;
-                if (selectedArticulo.Existencia > 1)
+                if (selectedArticulo.Existencia > 0)
                 {
 
                     VentaItem seleccionado = listaVentaItem.FirstOrDefault(x => x.IdArticulo == selectedArticulo.IdArticulo);
@@ -268,7 +268,7 @@ namespace Vendimia.App
                         ventaItem.Cantidad = 1;
                         //Calcular Precio
                         ventaItem.Precio = selectedArticulo.Precio * (double)(1 + (config.TasaFinanciamiento * config.PlazoMaximo) / 100);
-                        ventaItem.Importe = selectedArticulo.Precio * ventaItem.Cantidad;
+                        ventaItem.Importe = ventaItem.Precio * ventaItem.Cantidad;
                         listaVentaItem.Add(ventaItem);
 
                         ActualizarCalculos();
@@ -325,8 +325,9 @@ namespace Vendimia.App
                 }
                 if (cantidad <= articulo.Existencia)
                 {
-                    //Calcular el importe
-                    gridArticulosVtas.Rows[fila].Cells[5].Value = cantidad * (double)gridArticulosVtas.Rows[fila].Cells[4].Value; //Precio
+                //Calcular el importe
+                double precio = (double)gridArticulosVtas.Rows[fila].Cells[4].Value;// * (double)(1 + (config.TasaFinanciamiento * config.PlazoMaximo) / 100);
+                gridArticulosVtas.Rows[fila].Cells[5].Value = cantidad * precio; //Precio
 
                     ActualizarCalculos();
                 }
@@ -383,6 +384,11 @@ namespace Vendimia.App
             col5.Visible = false;
             gridAbonos.Columns.Add(col5);
 
+            DataGridViewColumn col6 = new DataGridViewTextBoxColumn();
+            col5.HeaderText = "";
+            col5.Visible = false;
+            gridAbonos.Columns.Add(col6);
+
             //radioColumn = new DataGridViewCheckBoxColumn();
             //radioColumn.HeaderText = "";
             //gridAbonos.Columns.Add(radioColumn);
@@ -397,7 +403,7 @@ namespace Vendimia.App
                 double totalpagar = preciocontado * (1 + (((double)config.TasaFinanciamiento * plazo ) / 100));
                 double abono = totalpagar / plazo;
                 double ahorro = totaladeudo - totalpagar;
-                gridAbonos.Rows.Add($"{plazo} ABONOS DE ", $"{abono:c}",$"TOTAL A PAGAR: {totalpagar:c}",$"SE AHORRA {ahorro:c}",plazo);
+                gridAbonos.Rows.Add($"{plazo} ABONOS DE ", $"{abono:c}",$"TOTAL A PAGAR: {totalpagar:c}",$"SE AHORRA {ahorro:c}",plazo, totalpagar);
             }
 
             //gridAbonos.Rows.Add()
@@ -413,11 +419,14 @@ namespace Vendimia.App
             }
                 
 
-            int plazoseleccionado = (int)gridAbonos.SelectedRows[0].Cells[4].Value;
+            int plazoseleccionado = (int)gridAbonos.SelectedRows[0].Cells[4].Value; //Celda no visible
+            double totalapagar = (double)gridAbonos.SelectedRows[0].Cells[5].Value; //Celda no visible
 
             using (var context = new ApplicationDbContext())
             {
                 Venta venta = new Venta() { Fecha = DateTime.Now, Plazo = plazoseleccionado, IdCliente = selectedCliente.IdCliente, Estatus = "A" };
+                //venta.Total = listaVentaItem.Sum(item => item.Importe);
+                venta.Total = totalapagar;
                 context.Ventas.Add(venta);
                 context.SaveChanges();
                 //List<VentaDetalle> listaventaDetalle = new List<VentaDetalle>();

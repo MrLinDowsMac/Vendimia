@@ -164,6 +164,7 @@
             // lblRFC
             // 
             this.lblRFC.AutoSize = true;
+            this.lblRFC.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.lblRFC.Location = new System.Drawing.Point(298, 21);
             this.lblRFC.Name = "lblRFC";
             this.lblRFC.Size = new System.Drawing.Size(10, 13);
@@ -173,6 +174,7 @@
             // lblClaveCliente
             // 
             this.lblClaveCliente.AutoSize = true;
+            this.lblClaveCliente.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.lblClaveCliente.Location = new System.Drawing.Point(60, 16);
             this.lblClaveCliente.Name = "lblClaveCliente";
             this.lblClaveCliente.Size = new System.Drawing.Size(10, 13);

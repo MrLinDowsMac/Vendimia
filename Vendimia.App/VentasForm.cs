@@ -28,7 +28,7 @@ namespace Vendimia.App
             gridVentas.Columns.Add("Nombre", "Nombre");
             gridVentas.Columns.Add("Total", "Total");
             gridVentas.Columns.Add("Fecha", "Fecha");
-            gridVentas.Columns.Add("Estatus", "Estatus");
+            //gridVentas.Columns.Add("Estatus", "Estatus");
 
             gridVentas.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             
@@ -64,10 +64,10 @@ namespace Vendimia.App
                         a.FolioVta,
                         a.IdCliente,
                         a.Cliente.NombreCompleto,
-                        a.Total,
-                        a.Fecha,
+                        Total = a.Total.ToString("c"),
+                        Fecha = a.Fecha.ToShortDateString(),
                         a.Estatus
-                    });
+                    }).Where(a => a.Estatus == "A");
 
 
                 foreach (var venta in ventas)
